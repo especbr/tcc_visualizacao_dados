@@ -1,0 +1,22 @@
+Em 2023, o Amazonas vem sofrendo com alguns eventos que penalizam bastante sua população, não apenas humana, mas em toda sua biodiversidade. A vazante chegou a níveis extremos, com imagens assustadoras de rios com seus leitos vazios e peixes mortos. A região também sofreu muito com as queimadas que, somadas ao fenômeno El Niño, deixaram diversas cidades por semanas envoltas em fumaça.
+
+Neste trabalho, a ideia foi mostrar uma série histórica dos níveis do Rio Negro, mensurada e divulgada pelo site do Porto de Manaus na página https://www.portodemanaus.com.br/?pagina=nivel-do-rio-negro-hoje. Esta fase de criação de funções e extração dos dados temos no script 01-nivel_rios_scraping. Foi necessário utilizar técnicas de webscraping para obtenção destes dados, com criação de funções e data wrangling, considerando a forma de apresentação do site.
+
+De forma complementar, também foi criado scraping de outro site (https://proamanaus.com.br) que contém dados para valores faltantes na fonte principal. No fim das contas, para as visualizações escolhidas não foi preciso utilizar esta fonte secundária, mas segue para caso de outras análises que possam derivar deste trabalho. Este script é o 99-nivel_rios_scraping_fonte2.R
+
+Para a construção do gráfico ggplot principal foi realizada a sumarização dos dados, agrupando-os por ano e com destaque aos valores de mínimo e máximo de cada ano. Esta fase, assim como uma brevíssima visualização de time series está em 02-tratamento.R.
+
+Enfim, na visualização dos dados, trabalhamos no script 03-dataviz.R.
+
+Optou-se por usar um geom que não é nativo do pacote ggplot2, o geom_dumbbell, do pacote ggalt. Desta maneira, ano a ano ficam evidenciados os pontos de máximo e mínimo de forma clara e sem poluição visual.
+
+Visando tornar mais interessante, os pontos de mínimo foram complementados com o geom_ribbon, com a área preenchida com textura das águas do Rio Negro usando o pacote geom_pattern.
+
+A linha de mínima histórica foi criada em vermelho com tracejado (geom_vline) e, por fim, faltava dar destaque aos 2 anos de menores níveis: 2010 e 2023. Para isso, a primeira abordagem pensada foi a utlização do pacote gghighlits, criando esta diferenciação entre os dois anos e os demais, porém um problema inusitado ocorreu e ao usar o gghighlights era criada uma faixa cinza que ia do menor ponto de 2010 até o menor ponto de 2023, arruinando a ideia. Esta tentativa inicial está registrada em 98-grafico-com-problema.R por curiosidade, caso alguém queira estudar o caso e propor uma solução.
+
+A abordagem adotada foi criar mais de um geom_dumbell com parâmetros diferentes para os anos e destaque e os demais.
+
+Como a visualização mostra apenas os extremos de cada ano, sem definição de como este ciclo ocorre no decorrer do ano, optou-se por demonstrar o fenômeno através de um calendário com heatmap, usando para isto o pacote echarts4R, limitando o calendário ao ano que detinha o recorde de mínima anterior, o ano de 2010.
+
+E, assim, embora de forma resumida, conseguimos não apenas mostrar graficamente como o fenômeno deste ano é uma excepcionalidade no histórico recente, como, considerando a evolução do ano de 2010, provalmente neste final de outubro de 2023, estamos próximos do ponto de inflexão.
+
